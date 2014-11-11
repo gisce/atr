@@ -1,2 +1,13 @@
-atr
-===============
+ATR Utils
+=========
+
+Environment variables
+
+SENTRY_DSN
+
+PEEK_SERVER
+PEEK_USER
+PEEK_PASSWORD
+PEEK_DB
+
+LOG_LEVEL
