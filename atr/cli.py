@@ -26,8 +26,14 @@ def init(path):
 @atr.command()
 @click.option('--path', type=click.Path())
 def import_xmls(path):
-    input = tasks.gen_new_files_dir(path)
     output = '/tmp/switching/proc-xml-%s' % uuid1()
+    os.makedirs(output)
+    logger = logging.getLogger('atr')
+    handler = logging.FileHandler(os.path.join(output, 'process.log'))
+    formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    input = tasks.gen_new_files_dir(path)
     tasks.sort_xmls(input, output)
     tasks.import_files(output)
 
@@ -35,6 +41,11 @@ def import_xmls(path):
 @atr.command()
 @click.option('--path', type=click.Path())
 def retry(path):
+    logger = logging.getLogger('atr')
+    handler = logging.FileHandler(os.path.join(path, 'process.log'))
+    formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
     tasks.retry_import_files(path)
 
 
