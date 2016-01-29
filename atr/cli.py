@@ -33,6 +33,7 @@ def import_xmls(path):
     formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
+    logging.info('Process dir: {0}'.format(output))
     input = tasks.gen_new_files_dir(path)
     tasks.sort_xmls(input, output)
     tasks.import_files(output)
