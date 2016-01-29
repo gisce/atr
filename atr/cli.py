@@ -41,6 +41,15 @@ def import_xmls(path):
 
 @atr.command()
 @click.option('--path', type=click.Path())
+@click.option('--out', type=click.Path())
+def sort(path, out):
+    logger = logging.getLogger('atr')
+    logger.info('Sorting XMLS from {0} to {1}'.format(path, out))
+    tasks.sort_xmls(path, out)
+
+
+@atr.command()
+@click.option('--path', type=click.Path())
 def retry(path):
     logger = logging.getLogger('atr')
     handler = logging.FileHandler(os.path.join(path, 'process.log'))

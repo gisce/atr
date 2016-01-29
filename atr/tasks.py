@@ -112,6 +112,7 @@ def gen_new_files_dir(input, output=None):
             sh.git.commit('-m', 'Added %s' % n_file)
         except:
             logger.error('File {0} not processed'.format(n_file))
+            raise
 
     return output
 
