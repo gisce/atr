@@ -71,8 +71,11 @@ def import_files(input):
                     try:
                         sw.importar_xml(xml, file_name)
                         sh.mv(path, tasks_dirs['_DONE'])
+                        logger.info('XML {0} imported correctly'.format(
+                            file_name
+                        ))
                     except xmlrpclib.Fault as xml_fault:
-                        error = xml_fault.faultCode.replace('\n', ' ')
+                        error = str(xml_fault.faultCode).replace('\n', ' ')
                         logger.error('Error importing %s xml: %s (%s)' % (
                             msg.tipus, file_name, error),
                             extra={
@@ -100,12 +103,17 @@ def gen_new_files_dir(input, output=None):
     new_files = get_new_files(input)
     logger.info('%s new files found' % len(new_files))
     for n_file in new_files:
-        dest = os.path.join(output, os.path.dirname(n_file))
-        logger.info('Copying %s -> %s' % (n_file, dest))
-        sh.cp('-R', n_file, dest)
-        logger.info('Adding to git %s' % n_file)
-        sh.git.add(n_file)
-        sh.git.commit('-m', 'Added %s' % n_file)
+        try:
+            dest = os.path.join(output, os.path.dirname(n_file))
+            logger.info('Copying %s -> %s' % (n_file, dest))
+            sh.cp('-R', n_file, dest)
+            logger.info('Adding to git %s' % n_file)
+            sh.git.add(n_file)
+            sh.git.commit('-m', 'Added %s' % n_file)
+        except:
+            logger.error('File {0} not processed'.format(n_file))
+            raise
+
     return output
 
 
