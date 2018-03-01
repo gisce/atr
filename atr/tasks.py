@@ -8,7 +8,7 @@ import xmlrpclib
 
 import sh
 from raven import Client as SentryClient
-from switching.input.messages import Message
+from gestionatr.input.messages import Message
 
 from .utils import setup_peek
 
